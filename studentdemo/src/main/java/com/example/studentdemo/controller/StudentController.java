@@ -17,7 +17,7 @@ public class StudentController {
     private StudentRepository studentRepository ;
 
 
-    @PostMapping(path="/addStudent")
+    @PostMapping(path="/admin/addStudent")
     public @ResponseBody Student addStudent (@RequestParam String first_name,
                                             @RequestParam String last_name,
                                             @RequestParam String email,
@@ -38,11 +38,11 @@ public class StudentController {
         return student;
 
 
-        //sample postman request Http://localhost:8080/student/addStudent?first_name=Gerard&last_name=way&email=mcr@Gmail.com&course=Major in Music&Gpa=1
+        //sample postman request Http://localhost:8080/student/admin/addStudent?first_name=Gerard&last_name=way&email=mcr@Gmail.com&course=Major in Music&Gpa=1
     }
 
 
-    @GetMapping(path="/getAllStudents")
+    @GetMapping(path="/user/getAllStudents")
     public @ResponseBody Iterable<Student> getAllStudents() {
         // This returns a JSON or
         // XML with the Book
@@ -53,7 +53,7 @@ public class StudentController {
 
 
 
-    @GetMapping("/delete")
+    @DeleteMapping("/admin/delete")
     public  @ResponseBody  String deleteById(@RequestParam long id){
 
         //sample  postman request Http://localhost:8080/student/delete?id=52
@@ -73,7 +73,7 @@ public class StudentController {
     }
 
 
-    @PostMapping(path="/updateStudent")
+    @PatchMapping("/admin/updateStudent")
     public @ResponseBody String updateByID (@RequestParam Integer id,
                                              @RequestParam String first_name,
                                              @RequestParam String last_name,
@@ -99,10 +99,45 @@ public class StudentController {
 
 
 
-           //sample postman Http://localhost:8080/student/updateStudent?id=102&first_name=Gerard&last_name=way&email=mychemical@Gmail.com&course=Major in Music&Gpa=1.5
-
 
 
     }
+
+
+
+
+    @GetMapping("/user/search")
+    public  @ResponseBody Optional<Student> searchById(@RequestParam long id){
+
+        //sample  postman request Http://localhost:8080/student/delete?id=52
+
+        if(studentRepository.existsById(Long.parseLong(String.valueOf(id)))){
+            return  studentRepository.findById(id);
+        }
+
+
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
